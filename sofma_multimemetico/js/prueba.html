@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head><title>Tiny CouchApp</title></head>
+  <body>
+    <h1>Tiny CouchApp</h1>
+    <ul id="databases"></ul>
+  </body>
+  <script src="/_utils/script/jquery.js"></script>
+  <script src="/_utils/script/jquery.couch.js"></script>
+  <script>
+    $.couch.allDbs({
+      success : function(dbs) {
+        dbs.forEach(function(db) {
+          $("#databases").append('<li><a href="/_utils/database.html?'+db+'">'+db+'</a></li>');
+        });
+      }
+    });
+
+  </script>
+</html>

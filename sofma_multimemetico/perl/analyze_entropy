@@ -1,0 +1,79 @@
+#!/bin/bash
+
+./statistic-entropy-chromosomes.pl conf p64-e32-r32
+yaml_file=`ls log-entropy-chroms-* | tail -1`
+
+number_of_chrom_generations=`cat $yaml_file | grep Generations | cut -d " " -f 2`
+chroms_entropies=`cat $yaml_file | grep Entropies | cut -d "'" -f 2`
+#echo "number_of_chrom_generations: $number_of_chrom_generations"
+#echo "chroms_entropies: $chroms_entropies"
+
+./statistic-entropy-rules.pl conf p64-e32-r32
+yaml_file=`ls log-entropy-rules-* | tail -1`
+
+number_of_rule_generations=`cat $yaml_file | grep Generations | cut -d " " -f 2`
+rules_entropies=`cat $yaml_file | grep Entropies | cut -d "'" -f 2`
+rules_length_entropies=`cat $yaml_file | grep LengthEntr: | cut -d "'" -f 2`
+rules_length_mean=`cat $yaml_file | grep LengthMean: | cut -d "'" -f 2`
+#echo "number_of_rule_generations: $number_of_rule_generations"
+#echo "rules_entropies: $rules_entropies"
+#echo "rules_length_entropies: $rules_length_entropies"
+#echo "rules_length_mean: $rules_length_mean"
+
+date=`date +%Y.%m.%d_%H.%M.%S`
+filename_entropy="log_entropy_$date"
+
+user=`whoami`
+machine=`hostname`
+
+echo "# Created by $user on $date <$user@$machine>" > $filename_entropy
+
+echo "# name: entropy_chroms" >> $filename_entropy
+echo "# type: matrix" >> $filename_entropy
+echo "# rows: 1" >> $filename_entropy
+echo "# columns: $number_of_chrom_generations" >> $filename_entropy
+echo "$chroms_entropies" >> $filename_entropy
+
+echo "# name: entropy_rules" >> $filename_entropy
+echo "# type: matrix" >> $filename_entropy
+echo "# rows: 1" >> $filename_entropy
+echo "# columns: $number_of_rule_generations" >> $filename_entropy
+echo "$rules_entropies" >> $filename_entropy
+
+echo "# name: entropy_rules_length" >> $filename_entropy
+echo "# type: matrix" >> $filename_entropy
+echo "# rows: 1" >> $filename_entropy
+echo "# columns: $number_of_rule_generations" >> $filename_entropy
+echo "$rules_length_entropies" >> $filename_entropy
+
+echo "# name: mean_rules_length" >> $filename_entropy
+echo "# type: matrix" >> $filename_entropy
+echo "# rows: 1" >> $filename_entropy
+echo "# columns: $number_of_rule_generations" >> $filename_entropy
+echo "$rules_length_mean" >> $filename_entropy
+
+# STATISTICS
+cp $filename_entropy ../octave/entropy.mat
+cd ../octave/
+octave -q entropy_statistics.m
+
+results_entropy_chroms="results_entropy_chroms_$date.png"
+results_entropy_rules="results_entropy_rules_$date.png"
+results_entropy_rules_length="results_entropy_rules_length_$date.png"
+results_mean_rules_length="results_mean_rules_length_$date.png"
+results_entropy_folder="results_entropy_$date"
+
+mkdir $results_entropy_folder
+mv results_entropy_chroms.png $results_entropy_folder/$results_entropy_chroms
+mv results_entropy_rules.png $results_entropy_folder/$results_entropy_rules
+mv results_entropy_rules_length.png $results_entropy_folder/$results_entropy_rules_length
+mv results_mean_rules_length.png $results_entropy_folder/$results_mean_rules_length
+rm entropy.mat
+cp ../perl/$filename_entropy $results_entropy_folder/
+
+cd ../perl
+
+eog ../octave/$results_entropy_folder/$results_entropy_chroms
+
+
+

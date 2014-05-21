@@ -1,0 +1,107 @@
+#!/bin/bash
+
+
+check_couchdb(){
+
+    if [ ! -f  ./last_couchdb_start ]
+    then
+        echo "" > ./last_couchdb_start
+    fi
+    
+    echo `date "+%d_%m_%Y"` > /tmp/now
+    if [[ `diff /tmp/now ./last_couchdb_start` ]]
+    then
+		sudo /usr/local/etc/init.d/couchdb start
+		sleep 2
+		sudo /usr/local/etc/init.d/couchdb status
+		echo
+		mv /tmp/now ./last_couchdb_start
+#    else
+#        echo "CouchDB already running... relax"
+    fi
+	
+}
+
+regenerate_DB(){
+
+	cd ../js/
+	./deploy.sh
+	cd -
+	
+}
+
+wait_threads(){
+
+	while [[  `ps aux | grep "\.pl" | wc -l` -gt 1 ]]
+	do
+		echo "wait for threads to end"
+		sleep 1
+	done
+	
+}
+
+#PARAMS
+if [ -z "$1" ]
+then 
+	echo
+	echo "    Usage: run <base>"	
+	echo
+	exit
+else
+	base=$1
+fi
+
+learn=1
+chrom_repro=1
+rule_repro=1
+    
+#PARAMS
+if [ ! -z "$2" -a ! -z "$3" -a ! -z "$4" ]
+then 
+    learn=$2
+    chrom_repro=$3
+    rule_repro=$4
+    echo "change clients!!!"
+    echo learn: $learn
+    echo chrom_repro: $chrom_repro
+    echo rule_repro: $rule_repro
+fi
+
+echo "executing $base"
+
+check_couchdb
+./killall_threads
+regenerate_DB
+
+./delete-populations.pl
+./initialize-populations.pl conf $base
+
+if [ ! -z "$2" -a ! -z "$3" -a ! -z "$4" ]
+then
+
+    for j1 in `seq 1 $learn`
+    do
+        ./evaluate-individual-learning.pl conf $base $j1&
+    done
+
+    for j2 in `seq 1 $chrom_repro`
+    do
+        ./reproduce-chromosomes.pl conf $base $j2&
+    done
+    
+    for j3 in `seq 1 $rule_repro`
+    do
+        ./reproduce-rules.pl conf $base $j3&
+    done
+
+else
+    ./evaluate-individual-learning.pl conf $base &
+    ./reproduce-chromosomes.pl conf $base &
+    ./reproduce-rules.pl conf $base &
+fi
+
+./reaper-chromosomes.pl conf $base &
+./reaper-rules.pl conf $base
+
+wait_threads
+

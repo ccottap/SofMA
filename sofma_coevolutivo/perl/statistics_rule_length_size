@@ -1,0 +1,50 @@
+#!/bin/bash
+
+n=20
+if [ ! -z "$1" ]
+then 
+    n=$1
+fi
+
+echo "we'll check $n logs"
+
+date=`date +%Y.%m.%d_%H.%M.%S`
+file="log-rule-length-$date"
+echo "# name: rulelength" > $file
+echo "# type: matrix" >> $file
+echo "# rows: $n" >> $file
+
+max_cols=0
+for i in `ls log-eval* | tail -$n`
+do
+    cols=`grep "RuleLength" $i | wc -l`
+    if [[ $cols -gt $max_cols ]]
+    then
+        max_cols=$cols
+    fi
+done
+
+real_cols=`echo "$max_cols + 1" | bc`
+echo "# columns: $real_cols" >> $file
+
+for i in `ls log-eval* | tail -$n`
+do
+    cols=`grep "RuleLength" $i | wc -l`
+    echo -n `grep "RuleLength" $i | cut -d ' ' -f 2 | xargs echo` >> $file
+    zeros=`echo "$max_cols - $cols" | bc`
+    for j in `seq 1 $zeros`
+    do
+        echo -n " 0" >> $file
+    done
+    echo " $cols" >> $file 
+done
+
+echo "file: $file"
+cat $file
+
+cp $file rulelength.mat
+octave -q sofea_statistics_rulelength.m
+eog results_rulelength.png
+
+
+

@@ -1,0 +1,18 @@
+
+# [MAIN CONFIGURATION]
+# number of executions per experiment
+iterations=20
+# either "changing_parameters" or "adding_clients"
+what="adding_clients"
+
+# [ADDING CLIENTS] RUN SAME EXPERIMENT WITH DIFFERENT NUMBER OF PROCESSES
+# base configuration file (.yaml file)
+base="b128-l32-r128-mmdp"
+# CL<a>-CR<b>
+# a: number of Chromosome Learners
+# b: number of Chromosome Reproductors
+client_confs=(  CL1-CR1
+                CL1-CR2     CL2-CR1
+                CL1-CR4     CL4-CR1
+                CL1-CR3     CL3-CR1            )
+

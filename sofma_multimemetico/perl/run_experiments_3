@@ -1,0 +1,50 @@
+#!/bin/bash
+
+#echo "********"
+#echo "* TRAP *"
+#echo "********"
+#./run_experiments conf_changing_rule_length_trap
+
+echo "********"
+echo "* TRAP *"
+echo "********"
+./run_experiments conf_changing_rule_length_trap_1.5
+
+#echo "********"
+#echo "* TRAP *"
+#echo "********"
+#./run_experiments conf_changing_rule_length_trap_2
+
+#echo "********"
+#echo "* MMDP *"
+#echo "********"
+#./run_experiments conf_changing_rule_length_mmdp
+
+echo "********"
+echo "* MMDP *"
+echo "********"
+./run_experiments conf_changing_rule_length_mmdp_1.5
+
+#echo "********"
+#echo "* MMDP *"
+#echo "********"
+#./run_experiments conf_changing_rule_length_mmdp_2
+
+#echo "********************"
+#echo "* COUNTSAT 32 bits *"
+#echo "********************"
+#./run_experiments conf_changing_rule_length_countsat_32
+
+#echo "********************"
+#echo "* COUNTSAT 48 bits *"
+#echo "********************"
+#./run_experiments conf_changing_rule_length_countsat_48
+
+#echo "********************"
+#echo "* COUNTSAT 64 bits *"
+#echo "********************"
+#./run_experiments conf_changing_rule_length_countsat_64
+
+echo "********"
+echo "* DONE *"
+echo "********"

@@ -1,0 +1,28 @@
+#!/bin/bash
+pwd
+date_mat=`ls results_*mat | cut -d '_' -f 2-`
+date=`basename $date_mat .mat`
+echo "date: $date"
+results_folder="results_$date"
+
+cp results_*.mat ../../octave/results.mat
+
+cd ../../octave/
+octave -q run_statistics.m
+
+for i in `ls *.png`
+do
+    convert -trim $i /tmp/$i
+    mv /tmp/$i $i
+done
+
+mv results_runtime.png      ../results/$results_folder/results_runtime_$date.png
+mv results_evaluations.png  ../results/$results_folder/results_evaluations_$date.png
+mv results_qrd.png          ../results/$results_folder/results_qrd_$date.png
+mv results_finished.png     ../results/$results_folder/results_finished_$date.png
+mv results_fitnesses.png    ../results/$results_folder/results_fitnesses_$date.png
+mv results.mat              ../results/$results_folder/results_$date.mat
+
+#mv results_qrd*.png          ../results/$results_folder/
+
+cd ../results/$results_folder

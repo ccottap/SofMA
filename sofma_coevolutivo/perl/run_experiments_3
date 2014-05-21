@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#echo "************"
+#echo "* COUNTSAT *"
+#echo "************"
+#./run_experiments conf_ageing_countsat
+
+echo "********"
+echo "* TRAP *"
+echo "********"
+./run_experiments conf_ageing_trap
+
+echo "********"
+echo "* MMDP *"
+echo "********"
+./run_experiments conf_ageing_mmdp
+
+echo "***********"
+echo "* DONE *"
+echo "***********"

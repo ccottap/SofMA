@@ -1,0 +1,13 @@
+
+## [MAIN CONFIGURATION]
+## number of executions per experiment
+iterations=20
+## either "changing_parameters" or "adding_clients"
+what="changing_parameters"
+
+## [CHANGING PARAMETERS] RUN DIFFERENT EXPERIMENTS
+## possible experiments: .yaml files
+experiments=( b128-l128-r128-mmdp   b128-l128-r64-mmdp    b128-l128-r32-mmdp
+              b128-l64-r128-mmdp    b128-l64-r64-mmdp     b128-l64-r32-mmdp
+              b128-l32-r128-mmdp    b128-l32-r64-mmdp     b128-l32-r32-mmdp)
+

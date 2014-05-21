@@ -1,0 +1,21 @@
+# name: experiments
+# type: string
+# elements: 9
+# length: 10
+L1-CR1-RR1
+# length: 10
+L2-CR1-RR1
+# length: 10
+L2-CR1-RR2
+# length: 10
+L2-CR2-RR1
+# length: 10
+L4-CR1-RR1
+# length: 10
+L4-CR1-RR2
+# length: 10
+L4-CR2-RR1
+# length: 10
+L4-CR1-RR4
+# length: 10
+L4-CR4-RR1

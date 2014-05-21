@@ -1,0 +1,15 @@
+# name: experiments
+# type: string
+# elements: 6
+# length: 33
+ageing-0.1-countsat-48-length-3-8
+# length: 31
+ageing-0.1-countsat-48-length-3
+# length: 33
+ageing-0.5-countsat-48-length-3-8
+# length: 31
+ageing-0.5-countsat-48-length-3
+# length: 33
+ageing-0.9-countsat-48-length-3-8
+# length: 31
+ageing-0.9-countsat-48-length-3

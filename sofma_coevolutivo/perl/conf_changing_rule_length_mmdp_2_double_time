@@ -1,0 +1,14 @@
+
+## [MAIN CONFIGURATION]
+## number of executions per experiment
+iterations=20
+## either "changing_parameters" or "adding_clients"
+what="changing_parameters"
+
+## [CHANGING PARAMETERS] RUN DIFFERENT EXPERIMENTS
+## possible experiments: .yaml files
+experiments=(   rule-length-3-mmdp-2-double-time      rule-length-4-mmdp-2-double-time      rule-length-5-mmdp-2-double-time
+                rule-length-6-mmdp-2-double-time      rule-length-7-mmdp-2-double-time      rule-length-8-mmdp-2-double-time
+                rule-length-3-8-mmdp-2-double-time )
+
+client_conf="L4-CR1-RR2"

@@ -1,0 +1,80 @@
+#!/bin/bash
+
+#echo "***********"
+#echo "* TRAP 32 *"
+#echo "***********"
+#./run_experiments conf_changing_rule_length_trap
+
+#echo "***********"
+#echo "* TRAP 48 *"
+#echo "***********"
+#./run_experiments conf_changing_rule_length_trap_1.5
+
+#echo "***********"
+#echo "* TRAP 64 *"
+#echo "***********"
+#./run_experiments conf_changing_rule_length_trap_2
+
+#echo "***********"
+#echo "* MMDP 20 *"
+#echo "***********"
+#./run_experiments conf_changing_rule_length_mmdp
+
+#echo "***********"
+#echo "* MMDP 30 *"
+#echo "***********"
+#./run_experiments conf_changing_rule_length_mmdp_1.5
+
+#echo "***********"
+#echo "* MMDP 40 *"
+#echo "***********"
+#./run_experiments conf_changing_rule_length_mmdp_2
+
+#echo "********************"
+#echo "* COUNTSAT 32 bits *"
+#echo "********************"
+#./run_experiments conf_changing_rule_length_countsat_32
+
+#echo "********************"
+#echo "* COUNTSAT 48 bits *"
+#echo "********************"
+#./run_experiments conf_changing_rule_length_countsat_48
+
+#echo "********************"
+#echo "* COUNTSAT 64 bits *"
+#echo "********************"
+#./run_experiments conf_changing_rule_length_countsat_64
+
+#echo "***********"
+#echo "* TRAP 32 *"
+#echo "***********"
+#./run_experiments conf_changing_rule_length_trap_double_time
+
+#echo "***********"
+#echo "* MMDP 20 *"
+#echo "***********"
+#./run_experiments conf_changing_rule_length_mmdp_double_time
+
+#echo "***********"
+#echo "* TRAP 48 *"
+#echo "***********"
+#./run_experiments conf_changing_rule_length_trap_1.5_double_time
+
+#echo "***********"
+#echo "* MMDP 30 *"
+#echo "***********"
+#./run_experiments conf_changing_rule_length_mmdp_1.5_double_time
+
+#echo "***********"
+#echo "* TRAP 64 *"
+#echo "***********"
+#./run_experiments conf_changing_rule_length_trap_2_double_time
+
+echo "***********"
+echo "* MMDP 40 *"
+echo "***********"
+./run_experiments conf_changing_rule_length_mmdp_2_double_time
+
+echo "***********"
+echo "* DONE *"
+echo "***********"

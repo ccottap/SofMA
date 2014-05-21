@@ -1,0 +1,3 @@
+#!/bin/bash
+./run_experiments conf_trap
+./run_experiments conf_mmdp

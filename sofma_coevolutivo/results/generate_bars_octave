@@ -1,0 +1,74 @@
+#!/bin/bash
+
+user=`whoami`
+machine=`hostname`
+date=`date`
+
+file="results_bars.mat"
+number_of_experiments=9
+number_of_configurations=9
+
+echo "# Created by $user on $date <$user@$machine>" > $file
+
+
+####################### MMDP #######################
+	
+echo "# name: mmdp" >> $file
+echo "# type: matrix" >> $file
+echo "# rows: $number_of_experiments" >> $file
+echo "# columns: $number_of_configurations" >> $file
+
+for i in l128_r128 l128_r64 l128_r32 l64_r128 l64_r64 l64_r32 l32_r128 l32_r64 l32_r32
+do
+    echo -ne "$i\t"
+    
+    f="results_conf_changing_clients_mmdp_$i*/results_conf*mat"
+    cat $f | grep -A 12 runtime | grep -v "#" | while read line
+    do
+    
+        median=`octave -q --eval "format long; median([$line])" | cut -d ' ' -f 4`
+        echo -n "`echo "$median"` "
+        echo -n "`echo "$median"` " >> $file
+        
+    done
+    
+    echo
+    echo >> $file
+
+done
+
+echo "--"
+
+####################### TRAP #######################
+
+echo >> $file
+echo "# name: trap" >> $file
+echo "# type: matrix" >> $file
+echo "# rows: $number_of_experiments" >> $file
+echo "# columns: $number_of_configurations" >> $file
+
+for i in l128_r128 l128_r64 l128_r32 l64_r128 l64_r64 l64_r32 l32_r128 l32_r64 l32_r32
+do
+    echo -ne "$i\t"
+    
+    f="results_conf_changing_clients_trap_$i*/results_conf*mat"
+    cat $f | grep -A 12 runtime | grep -v "#" | while read line
+    do
+    
+        median=`octave -q --eval "format long; median([$line])" | cut -d ' ' -f 4`
+        echo -n "`echo "$median"` "
+        echo -n "`echo "$median"` " >> $file
+        
+    done
+    
+    echo
+    echo >> $file
+
+done
+
+
+cp $file ../octave/
+cd ../octave/
+octave -q make_bars.m
+mv bars_mmdp.png ../results
+mv bars_trap.png ../results

@@ -1,0 +1,133 @@
+#!/bin/bash
+
+show_help(){
+    echo
+	echo "    Usage: run_n_times <experiment> <n times> <runtime file to append results> <evaluations file to append results> <fitnesses file to append results> [<client configuration>]"
+	echo
+}
+
+if [ "$1" == "-h" ]
+then
+    show_help
+    exit
+fi
+
+if [ ! -z "$1" ];then experiment=$1
+else show_help;	exit; fi
+
+if [ ! -z "$2" ];then n=$2
+else show_help;	exit; fi
+
+if [ ! -z "$3" ];then runtime_file=$3
+else show_help;	exit; fi
+
+if [ ! -z "$4" ];then evaluations_file=$4
+else show_help;	exit; fi
+
+if [ ! -z "$5" ];then fitnesses_file=$5
+else show_help;	exit; fi
+
+if [ ! -z "$6" ]
+then
+    client_conf=$6
+    learn=`echo $client_conf | cut -d L -f 2 | cut -d '-' -f 1`
+    reproductors=`echo $client_conf | cut -d R -f 2`
+fi
+
+# DEBUG {
+echo experiment: \"$experiment\"
+echo n: $n
+echo runtime_file: \"$runtime_file\"
+echo evaluations_file: \"$evaluations_file\"
+echo evaluations_file: \"$fitnesses_file\"
+if [ ! -z "$client_conf" ]
+then
+    echo client_conf: \"$client_conf\"
+	echo "learn: $learn"
+	echo "reproductors: $reproductors"
+fi
+#if [ -z $client_conf ]
+#then
+#    echo "there's no client conf"
+#else
+#    echo "client conf!!!!"
+#fi
+# } DEBUG
+
+#echo "we'll repeat the experiment '$experiment' $n times"
+
+runtimes=()
+evaluations=()
+fitnesses=()
+for i in `seq 1 $n`
+do
+    echo
+    echo "------------------------------------------------------"
+    echo
+    echo "running experiment $experiment ($i/$n)"
+    echo
+    
+    # EXECUTE
+    ./run $experiment $learn $reproductors
+    
+    # REPARING LEARN
+    if [ -z "$client_conf" ]
+    then
+        learn=1
+    fi
+    echo "learn: $learn"
+    
+    # EXPERIMENTS ID:
+    experiment_id=`cat $experiment.yaml | grep "id:" | cut -d ' ' -f 2`
+    
+    
+    # COUNTING TIME
+    times=""
+    for f in `ls -t log-eval-$experiment_id* | head -$learn`; 
+    do
+        time=`cat $f | grep Time | cut -d ' ' -f 2`
+        times="$times $time"
+    done
+    
+    total_time=`octave -q --eval "format long; min([$times])" | cut -d ' ' -f 4`
+    echo
+    echo "total time: $total_time s"
+    runtimes=("${runtimes[@]}" "$total_time")
+    
+    
+    # COUNTING EVALUATIONS
+    evals=""
+    for f in `ls -t log-eval-$experiment_id* | head -$learn`; 
+    do
+        eval=`cat $f | grep TotalEvaluations | cut -d ' ' -f 2`
+        evals="$evals $eval"
+    done
+    
+    total_evaluations=`octave -q --eval "format long; sum([$evals])" | cut -d ' ' -f 4`    
+    echo "total evaluations: $total_evaluations"
+    evaluations=("${evaluations[@]}" "$total_evaluations")
+    
+    
+    # CHECKING FITNESS
+    fits=""
+    for f in `ls -t log-eval-$experiment_id* | head -$learn`; 
+    do
+        fit=`cat $f | grep BestFitness | cut -d ' ' -f 2`
+        fits="$fits $fit"
+    done
+    
+    total_fitness=`octave -q --eval "format long; max([$fits])" | cut -d ' ' -f 4`
+    echo
+    echo "total fitness: $total_fitness"
+    fitnesses=("${fitnesses[@]}" "$total_fitness")
+    
+    
+done
+
+# WRITE TO FILE
+
+echo " ${runtimes[@]}" >> $runtime_file
+echo " ${evaluations[@]}" >> $evaluations_file
+echo " ${fitnesses[@]}" >> $fitnesses_file
+
+#./statistics_rule_length_size $n

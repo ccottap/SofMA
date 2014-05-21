@@ -1,0 +1,17 @@
+# name: experiments
+# type: string
+# elements: 7
+# length: 25
+rule-length-3-countsat-48
+# length: 25
+rule-length-4-countsat-48
+# length: 25
+rule-length-5-countsat-48
+# length: 25
+rule-length-6-countsat-48
+# length: 25
+rule-length-7-countsat-48
+# length: 25
+rule-length-8-countsat-48
+# length: 27
+rule-length-3-8-countsat-48

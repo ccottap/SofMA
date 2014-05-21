@@ -1,0 +1,33 @@
+#!/bin/bash
+
+echo "********"
+echo "* TRAP *"
+echo "********"
+
+#./run_experiments conf_changing_clients_trap_l128_r128
+#./run_experiments conf_changing_clients_trap_l128_r64
+#./run_experiments conf_changing_clients_trap_l128_r32
+#./run_experiments conf_changing_clients_trap_l64_r128
+#./run_experiments conf_changing_clients_trap_l64_r64
+#./run_experiments conf_changing_clients_trap_l64_r32
+#./run_experiments conf_changing_clients_trap_l32_r128
+#./run_experiments conf_changing_clients_trap_l32_r64
+./run_experiments conf_changing_clients_trap_l32_r32
+
+echo "********"
+echo "* MMDP *"
+echo "********"
+
+./run_experiments conf_changing_clients_mmdp_l128_r128
+./run_experiments conf_changing_clients_mmdp_l128_r64
+./run_experiments conf_changing_clients_mmdp_l128_r32
+./run_experiments conf_changing_clients_mmdp_l64_r128
+./run_experiments conf_changing_clients_mmdp_l64_r64
+./run_experiments conf_changing_clients_mmdp_l64_r32
+./run_experiments conf_changing_clients_mmdp_l32_r128
+./run_experiments conf_changing_clients_mmdp_l32_r64
+./run_experiments conf_changing_clients_mmdp_l32_r32
+
+echo "********"
+echo "* DONE *"
+echo "********"

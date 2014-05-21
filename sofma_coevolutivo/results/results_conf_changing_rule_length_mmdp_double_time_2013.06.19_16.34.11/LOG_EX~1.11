@@ -1,0 +1,17 @@
+# name: experiments
+# type: string
+# elements: 7
+# length: 30
+rule-length-3-mmdp-double-time
+# length: 30
+rule-length-4-mmdp-double-time
+# length: 30
+rule-length-5-mmdp-double-time
+# length: 30
+rule-length-6-mmdp-double-time
+# length: 30
+rule-length-7-mmdp-double-time
+# length: 30
+rule-length-8-mmdp-double-time
+# length: 32
+rule-length-3-8-mmdp-double-time

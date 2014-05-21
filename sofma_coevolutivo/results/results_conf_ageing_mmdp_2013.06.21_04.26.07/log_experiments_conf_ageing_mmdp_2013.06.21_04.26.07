@@ -1,0 +1,15 @@
+# name: experiments
+# type: string
+# elements: 6
+# length: 29
+ageing-0.1-mmdp-30-length-3-8
+# length: 27
+ageing-0.1-mmdp-30-length-5
+# length: 29
+ageing-0.5-mmdp-30-length-3-8
+# length: 27
+ageing-0.5-mmdp-30-length-5
+# length: 29
+ageing-0.9-mmdp-30-length-3-8
+# length: 27
+ageing-0.9-mmdp-30-length-5

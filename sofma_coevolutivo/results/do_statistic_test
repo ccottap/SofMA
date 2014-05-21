@@ -1,0 +1,32 @@
+#!/bin/bash
+
+day=`ls results_*mat | cut -d '_' -f 2`
+hour_=`ls results_*mat | cut -d '_' -f 3`
+hour=`basename $hour_ .mat`
+date=${day}_$hour
+echo "date: $date"
+results_folder="results_$date"
+
+cp results_*.mat ../../octave/results.mat
+
+cd ../../octave/
+octave -q run_statistic_test.m
+
+mv results.mat              ../results/$results_folder/results_$date.mat
+cp tables.mat               ../results/$results_folder/tables_statistic_test_$date.mat
+
+cd ../results/$results_folder
+
+# CAT TABLES
+
+number_of_experiments=`cat tables_statistic_test_$date.mat | grep table_evaluations -A 2 | grep rows | cut -d ' ' -f 3`
+lines=`echo "3+$number_of_experiments" | bc`
+echo "EVALUATIONS"
+cat tables_statistic_test_$date.mat | grep table_evaluations -A $lines | tail -$number_of_experiments | tr "." ","
+
+echo
+
+number_of_experiments=`cat tables_statistic_test_$date.mat | grep table_runtime -A 2 | grep rows | cut -d ' ' -f 3`
+lines=`echo "3+$number_of_experiments" | bc`
+echo "RUNTIME"
+cat tables_statistic_test_$date.mat | grep table_runtime -A $lines | tail -$number_of_experiments | tr "." ","

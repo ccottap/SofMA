@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cp results_bars.mat ../octave/
+cd ../octave/
+octave -q make_bars.m
+mv bars_mmdp.png ../results
+mv bars_trap.png ../results

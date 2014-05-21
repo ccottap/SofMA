@@ -1,0 +1,17 @@
+# name: experiments
+# type: string
+# elements: 7
+# length: 22
+rule-length-3-mmdp-1.5
+# length: 22
+rule-length-4-mmdp-1.5
+# length: 22
+rule-length-5-mmdp-1.5
+# length: 22
+rule-length-6-mmdp-1.5
+# length: 22
+rule-length-7-mmdp-1.5
+# length: 22
+rule-length-8-mmdp-1.5
+# length: 24
+rule-length-3-8-mmdp-1.5

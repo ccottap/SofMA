@@ -1,0 +1,83 @@
+
+---
+id: b128-l128-r32-mmdp
+
+### PARAMS ###
+
+# CHROMOSOMES AND FUNCTION PROBLEM
+# #fitness_function: trap, mmdp, countsat
+
+#fitness_function: trap
+#number_of_subchromosomes: 16
+#subchromosome_length: 4
+
+fitness_function: mmdp
+number_of_subchromosomes: 10
+subchromosome_length: 6
+
+#fitness_function: countsat
+#number_of_subchromosomes: 1
+#subchromosome_length: 32
+
+# RULES
+min_rule_length: 4
+max_rule_length: 4
+
+# INITIALIZE
+initial_chrom_pop_size: 128
+initial_rule_pop_size: 16
+
+# EVALUATE - INDIVIDUAL LEARNING
+learn_ammount_of_rules: 16
+learn_chromosomes_per_rule: 8
+max_evaluations: -1
+max_seconds: -1
+learn_prob: 1
+learn_max_iter: 10
+learn_max_neighbour: 60
+
+# REPRODUCE CHROMOSOMES
+repro_chrom_pop_size: 32
+chromosome_crossover_prob: 0.9
+chromosome_mutation_prob: 1/60
+
+# REPRODUCE RULES
+repro_rule_pop_size: 4
+rule_crossover_prob: 0.9
+rule_mutation_prob: 1/8
+
+# REAPER CHROMOSOMES
+base_chrom_pop_size: 128
+reaper_chrom_delay: 1
+
+# REAPER RULES
+base_rule_pop_size: 16
+reaper_rule_delay: 1
+ageing_operator: 0.5
+
+
+### VIEWS ### DO NOT MODIFY ###
+
+# EVALUATE - INDIVIDUAL LEARNING
+learn_chrom_design_doc:  _design/chroms
+learn_chrom_filter: 1-alive_without_fitness
+learn_rule_design_doc:  _design/rules
+learn_rule_filter: 1-alive_without_fitness
+
+# REPRODUCE CHROMOSOMES
+repro_chrom_design_doc: _design/chroms
+repro_chrom_filter: 2-alive_with_fitness
+
+# REPRODUCE RULES
+repro_rule_design_doc: _design/rules
+repro_rule_filter: 2-alive_with_fitness
+
+# REAPER CHROMOSOMES
+reaper_chrom_design_doc: _design/by_fitness
+reaper_chrom_filter: chroms_rev-2
+
+# REAPER RULES
+reaper_rule_design_doc: _design/by_fitness
+reaper_rule_filter: rules_rev-2
+
+

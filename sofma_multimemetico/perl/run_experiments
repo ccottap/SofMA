@@ -1,0 +1,137 @@
+#!/bin/bash
+
+#PARAMS
+if [ -z "$1" ]
+then 
+	echo
+	echo "    Usage: run_experiments <conf>"	
+	echo
+	exit
+else
+	conf=$1
+fi
+
+source ./$conf
+
+if [[ $what == "changing_parameters" ]]
+then
+    echo "experiments: ${experiments[@]}"
+    echo "client_conf: '$client_conf'"
+
+else
+    echo "base: '$base'"
+    experiments=(${client_confs[@]})
+    echo "experiments: ${experiments[@]}"
+fi
+echo "iterations: $iterations"
+
+
+user=`whoami`
+machine=`hostname`
+
+write_header_runtime(){	
+	echo "# Created by $user on $date <$user@$machine>" > $filename_runtime
+	echo "# name: runtime" >> $filename_runtime
+	echo "# type: matrix" >> $filename_runtime
+	echo "# rows: $number_of_experiments" >> $filename_runtime
+	echo "# columns: $iterations" >> $filename_runtime
+}
+
+write_header_evaluations(){	
+	echo "# name: evaluations" >> $filename_evaluations
+	echo "# type: matrix" >> $filename_evaluations
+	echo "# rows: $number_of_experiments" >> $filename_evaluations
+	echo "# columns: $iterations" >> $filename_evaluations
+}
+
+write_header_fitnesses(){	
+	echo "# name: fitnesses" >> $filename_fitnesses
+	echo "# type: matrix" >> $filename_fitnesses
+	echo "# rows: $number_of_experiments" >> $filename_fitnesses
+	echo "# columns: $iterations" >> $filename_fitnesses
+}
+
+write_header_experiments(){
+	echo "# name: experiments" > $filename_experiments
+	echo "# type: string" >> $filename_experiments
+	echo "# elements: $number_of_experiments" >> $filename_experiments
+}
+
+log_experiment(){
+	log_experiment=$1
+	echo "# length: ${#log_experiment}" >> $filename_experiments
+	echo "$log_experiment" >> $filename_experiments
+}
+
+
+number_of_experiments=${#experiments[@]}
+
+date=`date +%Y.%m.%d_%H.%M.%S`
+cp $conf log_${conf}_$date
+filename_runtime="log_runtime_${conf}_$date"
+filename_evaluations="log_evaluations_${conf}_$date"
+filename_fitnesses="log_fitnesses_${conf}_$date"
+filename_experiments="log_experiments_${conf}_$date"
+
+write_header_runtime
+write_header_evaluations
+write_header_fitnesses
+write_header_experiments
+
+
+# EXPERIMENTS
+exp=1
+for experiment in ${experiments[@]}
+do
+    echo
+    echo "running experiment $exp out of $number_of_experiments: $experiment"
+    echo
+    
+    log_experiment $experiment
+    if [[ $what == "changing_parameters" ]]
+    then
+        if [ -z "$client_conf" ]
+        then
+            ./run_n_times $experiment $iterations $filename_runtime $filename_evaluations $filename_fitnesses
+        else
+            ./run_n_times $experiment $iterations $filename_runtime $filename_evaluations $filename_fitnesses $client_conf
+        fi
+	        
+    else
+	    ./run_n_times $base $iterations $filename_runtime $filename_evaluations $filename_fitnesses $experiment
+    fi
+    
+    let exp=$exp+1
+    echo
+    echo "######################################################"
+    
+done
+
+
+# STATISTICS
+cp $filename_runtime ../octave/results.mat
+cat $filename_experiments >> ../octave/results.mat
+cat $filename_evaluations >> ../octave/results.mat
+cat $filename_fitnesses >> ../octave/results.mat
+
+cd ../octave/
+octave -q run_statistics.m
+
+results_folder="results_${conf}_$date"
+mkdir ../results/$results_folder
+mv results_runtime.png      ../results/$results_folder/results_runtime_${conf}_$date.png
+mv results_evaluations.png  ../results/$results_folder/results_evaluations_${conf}_$date.png
+mv results_qrd.png          ../results/$results_folder/results_qrd_${conf}_$date.png
+mv results_finished.png     ../results/$results_folder/results_finished_${conf}_$date.png
+mv results_fitnesses.png    ../results/$results_folder/results_fitnesses_${conf}_$date.png
+mv results.mat              ../results/$results_folder/results_${conf}_$date.mat
+
+cp ../perl/$filename_runtime     ../results/$results_folder/
+cp ../perl/$filename_experiments ../results/$results_folder/
+cp ../perl/$filename_evaluations ../results/$results_folder/
+cp ../perl/$filename_fitnesses ../results/$results_folder/
+
+cd ../perl
+
+
+

@@ -1,0 +1,21 @@
+# name: experiments
+# type: string
+# elements: 9
+# length: 19
+b128-l128-r128-mmdp
+# length: 18
+b128-l128-r64-mmdp
+# length: 18
+b128-l128-r32-mmdp
+# length: 18
+b128-l64-r128-mmdp
+# length: 17
+b128-l64-r64-mmdp
+# length: 17
+b128-l64-r32-mmdp
+# length: 18
+b128-l32-r128-mmdp
+# length: 17
+b128-l32-r64-mmdp
+# length: 17
+b128-l32-r32-mmdp

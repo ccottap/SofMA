@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head><title>Mostrando los cromosomas</title></head>
+  <body>
+    <h1>Chromosomas</h1>
+    <ul id="chromosomes"></ul>
+  </body>
+  <script src="/_utils/script/jquery.js"></script>
+  <script src="/_utils/script/jquery.couch.js"></script>
+  <script>
+    $db = $.couch.db("sofea_test");  
+   
+   function show_chromosomes() {  
+    $("div#chromosomes").empty();  
+    $db.view("by/fitness", {  
+    success: function(data) {  
+    for (i in data.rows) {  
+       id = data.rows[i].id;  
+       html = '<div class="chrom">' +  id '</div>';  
+       $("div#chromosomes").append(html);  
+      }
+    }});
+   }
+   
+   $(document).ready(function() {
+    show_chromosomes();
+   });
+  </script>
+</html>

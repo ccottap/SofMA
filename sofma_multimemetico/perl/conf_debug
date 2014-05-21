@@ -1,0 +1,28 @@
+
+# [MAIN CONFIGURATION]
+# number of executions per experiment
+iterations=10
+# either "changing_parameters" or "adding_clients"
+what="changing_parameters"
+# when choosing "changing_parameters", the client configuration will be fixed
+# when choosing "adding_clients, the experiment configuration will be fixed
+
+# [CHANGING PARAMETERS] RUN DIFFERENT EXPERIMENTS
+# possible experiments: .yaml files
+experiments=( debug debug-2 ) #b128-l128-r128-trap    b128-l128-r64-trap    b128-l128-r32-trap
+#              b128-l64-r128-trap    b128-l64-r64-trap     b128-l64-r32-trap
+#              b128-l32-r128-trap    b128-l32-r64-trap     b128-l32-r32-trap)
+
+# client configuration for the experiments (CL1-CR1 by default)
+client_conf=CL3-CR2
+
+# [ADDING CLIENTS] RUN SAME EXPERIMENT WITH DIFFERENT NUMBER OF PROCESSES
+# base configuration file (.yaml file)
+base="b128-l128-r128-trap"
+# CL<a>-CR<b>
+# a: number of Chromosome Learners
+# b: number of Chromosome Reproductors
+client_confs=(  CL1-CR1     CL1-CR2     CL1-CR4
+                CL2-CR1     CL2-CR2     CL2-CR4
+                CL4-CR1     CL4-CR2     CL4-CR4  )
+

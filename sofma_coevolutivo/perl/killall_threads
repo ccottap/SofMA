@@ -1,0 +1,7 @@
+#!/bin/bash
+
+killall -q evaluate-individual-learning.pl 
+killall -q reproduce-chromosomes.pl
+killall -q reproduce-rules.pl
+killall -q reaper-chromosomes.pl
+killall -q reaper-rules.pl

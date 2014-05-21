@@ -1,0 +1,17 @@
+# name: experiments
+# type: string
+# elements: 7
+# length: 20
+rule-length-3-trap-2
+# length: 20
+rule-length-4-trap-2
+# length: 20
+rule-length-5-trap-2
+# length: 20
+rule-length-6-trap-2
+# length: 20
+rule-length-7-trap-2
+# length: 20
+rule-length-8-trap-2
+# length: 22
+rule-length-3-8-trap-2

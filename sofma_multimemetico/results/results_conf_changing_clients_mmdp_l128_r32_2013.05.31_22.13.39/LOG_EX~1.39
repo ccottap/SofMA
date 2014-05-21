@@ -1,0 +1,17 @@
+# name: experiments
+# type: string
+# elements: 7
+# length: 7
+CL1-CR1
+# length: 7
+CL1-CR2
+# length: 7
+CL2-CR1
+# length: 7
+CL1-CR4
+# length: 7
+CL4-CR1
+# length: 7
+CL1-CR3
+# length: 7
+CL3-CR1

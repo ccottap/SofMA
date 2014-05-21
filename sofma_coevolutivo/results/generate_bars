@@ -1,0 +1,46 @@
+#!/bin/bash
+
+echo "MMDP"
+echo
+for i in `ls results_conf_changing_clients_mmdp_*/results_conf*mat`
+do
+    echo -ne "`echo -n $i | cut -d '_' -f 6-7`\t"
+    
+    cat $i | grep -A 12 runtime | grep -v "#" | while read line
+    do
+    
+#        echo "we have `echo -n "$line" | wc -w` times"
+#        echo "$line"
+        median=`octave -q --eval "format long; median([$line])" | cut -d ' ' -f 4`
+        echo -n "`echo "$median" | tr . ,` "
+        
+    done
+
+    echo
+#    echo "----------------------------------------"
+done
+
+#CL1-CR1 CL1-CR2 CL2-CR1 CL1-CR4 CL4-CR1 CL1-CR3 CL3-CR1
+echo
+echo "----------------------------------------"
+echo
+echo "trap"
+echo
+
+for i in `ls results_conf_changing_clients_trap_*/results_conf*mat`
+do
+    echo -ne "`echo -n $i | cut -d '_' -f 6-7`\t"
+    
+    cat $i | grep -A 12 runtime | grep -v "#" | while read line
+    do
+    
+#        echo "we have `echo -n "$line" | wc -w` times"
+#        echo "$line"
+        median=`octave -q --eval "format long; median([$line])" | cut -d ' ' -f 4`
+        echo -n "`echo "$median" | tr . ,` "
+        
+    done
+
+    echo
+#    echo "----------------------------------------"
+done

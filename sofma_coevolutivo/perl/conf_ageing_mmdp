@@ -1,0 +1,11 @@
+## number of executions per experiment
+iterations=20
+what="changing_parameters"
+
+## [CHANGING PARAMETERS] RUN DIFFERENT EXPERIMENTS
+## possible experiments: .yaml files
+experiments=(   ageing-0.1-mmdp-30-length-3-8  ageing-0.1-mmdp-30-length-5
+                ageing-0.5-mmdp-30-length-3-8  ageing-0.5-mmdp-30-length-5
+                ageing-0.9-mmdp-30-length-3-8  ageing-0.9-mmdp-30-length-5 )
+
+client_conf="L4-CR1-RR2"

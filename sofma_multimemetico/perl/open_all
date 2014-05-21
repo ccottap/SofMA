@@ -1,0 +1,15 @@
+#!/bin/bash
+
+gedit p64-e32-r32.yaml &
+gedit run &
+gedit run_n_times &
+gedit run_experiments &
+gedit Manolo/Memetic.pm &
+gedit initialize-populations.pl &
+gedit evaluate-individual-learning.pl &
+gedit reproduce-chromosomes.pl &
+gedit reproduce-rules.pl &
+gedit reaper-chromosomes.pl &
+gedit reaper-rules.pl &
+gedit delete-populations.pl &
+
